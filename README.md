@@ -1,2 +1,7 @@
 # cioos-viz
-Sample visualizations of CIOOS datasets
+Visualizations of CIOOS datasets
+
+
+ckanapi
+
+
