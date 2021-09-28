@@ -61,7 +61,7 @@ def choicePlot(bodyname, varName):
 
 widgets = pn.Column(
     pn.Spacer(height=30),
-    body_selector,pn.Spacer(height=30), var_selector,
+    body_selector, pn.Spacer(height=30), var_selector,
     width=400,
 )
 plotDataPanel = pn.Row(choicePlot, pn.Spacer(width=0), widgets)
