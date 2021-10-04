@@ -13,7 +13,7 @@ import requests
 import io
 
 hv.extension('bokeh')
-pn.extension()
+pn.extension(loading_spinner='dots', loading_color='#00aa41',)
 
 dfDigbey = pd.read_csv("C:/Users/rinez/Downloads/wpsu-7fer_raw_merged.csv")
 dfAnnapolis = pd.read_csv("C:/Users/rinez/Downloads/knwz-4bap_raw_merged.csv")

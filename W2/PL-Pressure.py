@@ -3,7 +3,7 @@ from bokeh.plotting import figure, output_file, show, save
 from bokeh.io import export_png
 import pandas as pd
 import datetime as dt
-from bokeh.models import DatetimeTickFormatter, ColumnDataSource
+from bokeh.models import DatetimeTickFormatter, ColumnDataSource, Legend, LegendItem
 import panel.widgets as pnw
 
 e = ERDDAP(server="https://cioosatlantic.ca/erddap",
@@ -45,4 +45,6 @@ fig1.line(time, df['water_pressure (mbar)']/100, line_width=5, color=single_colo
 fig1.legend.location= 'top_left'
 fig1.legend.label_text_font_size = "21pt"
 fig1.legend.click_policy='hide'
+
+
 show(fig1)
