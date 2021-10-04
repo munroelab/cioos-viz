@@ -31,7 +31,4 @@ factors=sorted(data.depth.unique(), reverse=True),end=1), )
 p.legend.visible=False
 legend=Legend(items=list(p.legend[0].items), title = "Depth(m)",)
 p.add_layout(legend, 'right')
-listof = list(p.legend.items)
-print('\ngetattr : name of the student is =', getattr(p.legend.items, '_property_values'))
-print("hi")
 show(p)
