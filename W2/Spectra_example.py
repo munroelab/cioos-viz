@@ -7,19 +7,19 @@ import numpy as np
 from erddapy import ERDDAP
 import scipy.signal
 import os
-#import matplotlib.pyplot as plt
-
-print("dataset loading")
-if os.path.exists("dataset.csv"):
-    df = pd.read_csv("dataset.csv")
-else:
-    e = ERDDAP(server="https://dev.cioosatlantic.ca/erddap",
+import matplotlib.pyplot as plt
+#
+# print("dataset loading")
+# if os.path.exists("dataset.csv"):
+#     df = pd.read_csv("dataset.csv")
+# else:
+e = ERDDAP(server="https://dev.cioosatlantic.ca/erddap",
                  protocol="tabledap", )
-    e.auth = ("cioosatlantic", "4oceans")
-    e.response = "csv"
-    e.dataset_id = 'wpsu-7fer'
-    df = e.to_pandas()
-    df.to_csv("dataset.csv")
+e.auth = ("cioosatlantic", "4oceans")
+e.response = "csv"
+e.dataset_id = 'wpsu-7fer'
+df = e.to_pandas()
+#df.to_csv("dataset.csv")
 
 
 print("dataset loaded, filtering...")
@@ -29,7 +29,7 @@ df['time (UTC)'] = pd.to_datetime(df['time (UTC)'], format="%Y-%m-%dT%H:%M:%SZ")
 df = df.set_index(df['time (UTC)'].astype(np.datetime64))
 data = df[df.waterbody_station == "St. Mary's Bay-Long Beach"]
 data = data[data['depth (m)'] == 5]
-data = data.loc['2020-8-1':'2020-8-2']
+data = data.loc['2020-8-1':'2020-8-31']
 data = data[['time (UTC)','Temperature (degrees Celsius)','Dissolved_Oxygen (% saturation)']]
 data['time (UTC)'] = (data["time (UTC)"]-dt.datetime(1970,1,1)).dt.total_seconds()
 data['time (UTC)'] -= data['time (UTC)'].min()
@@ -42,10 +42,15 @@ print("sampling frequency =", sampling_frequency, 'hz')
 print("dataset filtered")
 
 f, psd= scipy.signal.periodogram(data['Temperature (degrees Celsius)'], fs=sampling_frequency)
-p = figure(plot_width= 1000, plot_height=400, title ='Power Spectral Density')
-p.line(f, psd, line_width=2)
-p.xaxis.axis_label = "Freq (Hz)"
-p.yaxis.axis_label = "PSD"
-show(p)
+f = 1/f/3600
+
+indexes = [1,2,3,4,5,6,7,8,9]
+psd = np.delete(psd, indexes, axis=0)
+f = np.delete(f, indexes, axis=0)
+
+plt.plot(f,psd)
+plt.xlabel("Period (hours)")
+plt.ylabel("Power Spectral Density")
+plt.show()
 
 
