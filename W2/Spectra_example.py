@@ -29,7 +29,7 @@ df['time (UTC)'] = pd.to_datetime(df['time (UTC)'], format="%Y-%m-%dT%H:%M:%SZ")
 df = df.set_index(df['time (UTC)'].astype(np.datetime64))
 data = df[df.waterbody_station == "St. Mary's Bay-Long Beach"]
 data = data[data['depth (m)'] == 5]
-data = data.loc['2020-8-1':'2020-8-31']
+# data = data.loc['2020-8-1':'2020-8-31']
 data = data[['time (UTC)','Temperature (degrees Celsius)','Dissolved_Oxygen (% saturation)']]
 data['time (UTC)'] = (data["time (UTC)"]-dt.datetime(1970,1,1)).dt.total_seconds()
 data['time (UTC)'] -= data['time (UTC)'].min()
@@ -40,17 +40,19 @@ print("# of samples =", len(data))
 print("sample time interval =", inter_sample_time, 's')
 print("sampling frequency =", sampling_frequency, 'hz')
 print("dataset filtered")
-
-f, psd= scipy.signal.periodogram(data['Temperature (degrees Celsius)'], fs=sampling_frequency)
-f = 1/f/3600
-
-indexes = [1,2,3,4,5,6,7,8,9]
-psd = np.delete(psd, indexes, axis=0)
-f = np.delete(f, indexes, axis=0)
+window = 4320
+f, psd= scipy.signal.welch(data['Temperature (degrees Celsius)'], fs=sampling_frequency, nperseg=4320)
+f = (f**(-1))/3600
+#
+# indexes = [1,2,3,4,5,6,7,8,9]
+# psd = np.delete(psd, indexes, axis=0)
+# f = np.delete(f, indexes, axis=0)
 
 plt.plot(f,psd)
-plt.xlabel("Period (hours)")
+plt.xlabel("Frequency Hz")
 plt.ylabel("Power Spectral Density")
 plt.show()
+
+#loglog
 
 

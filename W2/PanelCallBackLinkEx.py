@@ -37,7 +37,7 @@ bodylist = list(sorted(bodyFrame))
 
 var_selector = pn.widgets.Select(name="Variable", options=varlist)
 
-body_selector = pn.widgets.Select(name = "WaterBody", options= bodylist)
+body_selector = pn.widgets.Select(name="WaterBody", options= bodylist)
 
 date_range_slider = pn.widgets.DateRangeSlider(
     name="Show between",
