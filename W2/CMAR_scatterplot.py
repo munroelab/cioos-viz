@@ -10,7 +10,7 @@ from bokeh.palettes import Viridis5
 df = pd.read_csv("C:/Users/rinez/Downloads/wpsu-7fer_raw_merged.csv")
 df = df.dropna(axis=1, how='all')
 df = df.sort_values(by=['timestamp'])
-#df = df.set_index(df.timestamp.astype(np.datetime64))
+
 data = df[df.station == "Long Island"]
 data['timestamp']= pd.to_datetime(data['timestamp'], format="%Y-%m-%dT%H:%M:%S.000")
 data.depth= data.depth.astype(str) + ' m'
